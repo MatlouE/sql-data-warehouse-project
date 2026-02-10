@@ -3,7 +3,7 @@
 <h2>Project Requirements</h2>
 
 
-<h3>Building Data Warehouse</h3>
+<h3>Building Data Warehouse (Data Engineering)</h3>
 <strong>Objective</strong>
 Develop a modern data warehouse using sql server to consolidate sales, data, enabling analytical reporting and informed decision-making.
 
@@ -16,3 +16,8 @@ Specifications
     <li>Documentaion: Documentation of data model to support stakeholder and analystics</li>
 </ul>
 
+<h3>BI: Analytics & Reporting (Data Analysis)</h3>
+
+objective
+
+Develop sql based analytics to deliver detailed insights into:
