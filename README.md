@@ -20,4 +20,4 @@ Specifications
 
 objective
 
-Develop sql based analytics to deliver detailed insights into:
+Develop sql based analytics to deliver detailed insights 
