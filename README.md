@@ -22,4 +22,4 @@ objective
 
 Develop sql based analytics to deliver detailed insights into:
 
-<img href='https://github.com/MatlouE/sql-data-warehouse-project/blob/main/Sql%20Dataware%20house%20data%20architecture.jpg' src='Data Architecture'>
+<img href='https://github.com/MatlouE/sql-data-warehouse-project/blob/3776beaa0b79e1d04f23591f8863ccde08292eef/Sql%20Dataware%20house%20data%20architecture.jpg' src='Data Architecture'>
