@@ -50,15 +50,17 @@ select top 100 *
 from silver.crm_cust_info
 
 --silver.crm_prd_info
--- eda on each column applying some cleaning/transformation where necessary
-
-select prd_id, count(*)
-from bronze.crm_prd_info
-group by prd_id
-having count(*) > 1 or prd_id is null
-
-
-
+-- insert cleaned bronze layer data into silver layer
+INSERT INTO silver.crm_prd_info (
+	prd_id,
+	cat_id,
+	prd_key,
+	prd_nm,
+	prd_cost,
+	prd_line,
+	prd_start_dt,
+	prd_end_dt
+)
 select prd_id, prd_key, 
 	replace(substring(prd_key, 1, 5), '-', '_') as cat_id,
 	substring(prd_key, 7, len(prd_key)) as prd_key,
@@ -71,18 +73,12 @@ select prd_id, prd_key,
 		else 'n/a'
 	end prd_line, 
 	prd_start_dt , 
+	--This query aims to fix the end date error
+	-- the end date = the start date of the next record
+	-- using lead() funct to access the startdate of the next row
 	LEAD(prd_start_dt) over (partition by prd_key order by prd_start_dt ) -1 as prd_end_dt
-from bronze.crm_prd_info
 
---This query aims to fix the end date error
--- the end date = the start date of the next record
--- using lead() funct to access the startdate of the next row
-select prd_id,
-prd_key, prd_nm, prd_start_dt, prd_end_dt,
- LEAD(prd_start_dt) over (partition by prd_key order by prd_start_dt desc) - 1 as prd_end_dt_test
 from bronze.crm_prd_info
-where prd_key in ('AC-HE-HL-U509-R', 'AC-HE-HL-U509')
-
 
 
  
