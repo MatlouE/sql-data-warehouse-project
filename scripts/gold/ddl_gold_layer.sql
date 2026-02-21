@@ -4,6 +4,7 @@ IF OBJECT_ID('gold.dim_customers', 'V') IS NOT NULL
     DROP VIEW gold.dim_customers;
 GO
 
+-- this view/dim_customers connects all customer_info tables (crm_cust_info , erp_cust_az12 and erp_loc_a101) into one 
 CREATE VIEW gold.dim_customers AS
 SELECT
     ROW_NUMBER() OVER (ORDER BY cst_id) AS customer_key, -- Surrogate key
@@ -26,10 +27,11 @@ LEFT JOIN silver.erp_loc_a101 la
     ON ci.cst_key = la.cid;
 GO
 
+-- Create gold.dim_products
 IF OBJECT_ID('gold.dim_products', 'V') IS NOT NULL
     DROP VIEW gold.dim_products;
 GO
-
+-- view contains all product info from tables(crm_prd_info, erp_px_cat_g1v2)
 CREATE VIEW gold.dim_products AS
 SELECT
     ROW_NUMBER() OVER (ORDER BY pn.prd_start_dt, pn.prd_key) AS product_key, -- Surrogate key
@@ -54,7 +56,7 @@ IF OBJECT_ID('gold.fact_sales', 'V') IS NOT NULL
 GO
 
 
--- this is 
+-- this is our fact table sales view which contains all relevant data from all tables linked to each sale/order
 CREATE VIEW gold.fact_sales AS
 SELECT
     sd.sls_ord_num  AS order_number,
@@ -67,7 +69,7 @@ SELECT
     sd.sls_quantity AS quantity,
     sd.sls_price    AS price
 FROM silver.crm_sales_details sd
-LEFT JOIN gold.dim_products pr
+LEFT JOIN gold.dim_products pr -- here we are joining directly from the views 
     ON sd.sls_prd_key = pr.product_number
 LEFT JOIN gold.dim_customers cu
     ON sd.sls_cust_id = cu.customer_id;
